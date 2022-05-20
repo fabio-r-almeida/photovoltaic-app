@@ -1,16 +1,38 @@
 {
   "files": {
-    "main.css": "/photovoltaic-app/static/css/main.073c9b0a.css",
-    "main.js": "/photovoltaic-app/static/js/main.1b48e10e.js",
+    "main.css": "/photovoltaic-app/static/css/main.37b49457.css",
+    "main.js": "/photovoltaic-app/static/js/main.7fbcef35.js",
     "static/js/787.c02086d1.chunk.js": "/photovoltaic-app/static/js/787.c02086d1.chunk.js",
-    "static/media/logo.svg": "/photovoltaic-app/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "static/media/background.jpg": "/photovoltaic-app/static/media/background.ce800c94df294634b55e.jpg",
+    "static/media/fa-brands-400.svg": "/photovoltaic-app/static/media/fa-brands-400.4009e71782c2fd408c47.svg",
+    "static/media/fa-solid-900.svg": "/photovoltaic-app/static/media/fa-solid-900.ab820b7de48566829c5e.svg",
+    "static/media/fa-solid-900.eot": "/photovoltaic-app/static/media/fa-solid-900.d2c8b126d305ba3ef560.eot",
+    "static/media/fa-solid-900.ttf": "/photovoltaic-app/static/media/fa-solid-900.2aae7c212ce9c344ede6.ttf",
+    "static/media/fa-regular-400.svg": "/photovoltaic-app/static/media/fa-regular-400.d3d070c219ac57dafb23.svg",
+    "static/media/fa-brands-400.eot": "/photovoltaic-app/static/media/fa-brands-400.4163c5ce45679952d5cb.eot",
+    "static/media/fa-brands-400.ttf": "/photovoltaic-app/static/media/fa-brands-400.70257b1d0ff04d70da6c.ttf",
+    "static/media/fa-solid-900.woff": "/photovoltaic-app/static/media/fa-solid-900.3a5706fab1c11ad6dfdc.woff",
+    "static/media/fa-brands-400.woff": "/photovoltaic-app/static/media/fa-brands-400.b97ac5f935e23fc1816f.woff",
+    "static/media/fa-brands-400.woff2": "/photovoltaic-app/static/media/fa-brands-400.b9df8fe0faf79eb4f60b.woff2",
+    "static/media/fa-solid-900.woff2": "/photovoltaic-app/static/media/fa-solid-900.9ef50a04ef2ee9703d69.woff2",
+    "static/media/fa-regular-400.eot": "/photovoltaic-app/static/media/fa-regular-400.0f9d1f74777600d15191.eot",
+    "static/media/fa-regular-400.ttf": "/photovoltaic-app/static/media/fa-regular-400.6086b966f7072932f094.ttf",
+    "static/media/fa-regular-400.woff": "/photovoltaic-app/static/media/fa-regular-400.0e6b58ac5d805dfcd66f.woff",
+    "static/media/fa-regular-400.woff2": "/photovoltaic-app/static/media/fa-regular-400.0fe9428559f3518bb8d4.woff2",
+    "static/media/solar-panel-angle-700w.webp": "/photovoltaic-app/static/media/solar-panel-angle-700w.1d75c3664806ad088c67.webp",
+    "static/media/06.svg": "/photovoltaic-app/static/media/06.14e7be67f275bb71c2426a4ebcd7548e.svg",
+    "static/media/05.svg": "/photovoltaic-app/static/media/05.7383c93f57d62a14d8ccfa51b7f6d7f7.svg",
     "index.html": "/photovoltaic-app/index.html",
-    "main.073c9b0a.css.map": "/photovoltaic-app/static/css/main.073c9b0a.css.map",
-    "main.1b48e10e.js.map": "/photovoltaic-app/static/js/main.1b48e10e.js.map",
+    "static/media/01.svg": "/photovoltaic-app/static/media/01.1d2db4f7b1b8e3127ddcd841b817c88e.svg",
+    "static/media/02.svg": "/photovoltaic-app/static/media/02.f0855ccbaabd50e39e2e4bd304d82e02.svg",
+    "static/media/right.svg": "/photovoltaic-app/static/media/right.08ca1f3df5e2ef2fee8ba8a12a4cf77d.svg",
+    "static/media/left.svg": "/photovoltaic-app/static/media/left.e8ef2f52360d971c14a9ccb14f5ea765.svg",
+    "main.37b49457.css.map": "/photovoltaic-app/static/css/main.37b49457.css.map",
+    "main.7fbcef35.js.map": "/photovoltaic-app/static/js/main.7fbcef35.js.map",
     "787.c02086d1.chunk.js.map": "/photovoltaic-app/static/js/787.c02086d1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.1b48e10e.js"
+    "static/css/main.37b49457.css",
+    "static/js/main.7fbcef35.js"
   ]
 }
