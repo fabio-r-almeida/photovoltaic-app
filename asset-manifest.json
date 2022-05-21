@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/photovoltaic-app/static/css/main.702cfb69.css",
-    "main.js": "/photovoltaic-app/static/js/main.d6557dc6.js",
+    "main.css": "/photovoltaic-app/static/css/main.08a81ac5.css",
+    "main.js": "/photovoltaic-app/static/js/main.38b2b0c0.js",
     "static/js/787.c02086d1.chunk.js": "/photovoltaic-app/static/js/787.c02086d1.chunk.js",
     "static/media/fa-brands-400.svg": "/photovoltaic-app/static/media/fa-brands-400.4009e71782c2fd408c47.svg",
     "static/media/fa-solid-900.svg": "/photovoltaic-app/static/media/fa-solid-900.ab820b7de48566829c5e.svg",
@@ -27,12 +27,12 @@
     "static/media/02.svg": "/photovoltaic-app/static/media/02.f0855ccbaabd50e39e2e4bd304d82e02.svg",
     "static/media/right.svg": "/photovoltaic-app/static/media/right.08ca1f3df5e2ef2fee8ba8a12a4cf77d.svg",
     "static/media/left.svg": "/photovoltaic-app/static/media/left.e8ef2f52360d971c14a9ccb14f5ea765.svg",
-    "main.702cfb69.css.map": "/photovoltaic-app/static/css/main.702cfb69.css.map",
-    "main.d6557dc6.js.map": "/photovoltaic-app/static/js/main.d6557dc6.js.map",
+    "main.08a81ac5.css.map": "/photovoltaic-app/static/css/main.08a81ac5.css.map",
+    "main.38b2b0c0.js.map": "/photovoltaic-app/static/js/main.38b2b0c0.js.map",
     "787.c02086d1.chunk.js.map": "/photovoltaic-app/static/js/787.c02086d1.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.702cfb69.css",
-    "static/js/main.d6557dc6.js"
+    "static/css/main.08a81ac5.css",
+    "static/js/main.38b2b0c0.js"
   ]
 }
