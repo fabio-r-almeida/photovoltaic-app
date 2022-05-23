@@ -1,0 +1,19 @@
+
+.spinner{
+font-size: 4rem;
+animation: pulse 1s linear 0s infinite normal forwards;
+}
+
+@keyframes pulse{
+
+    0%{
+        color: rgb(255, 255, 255);
+    }
+    50%{
+        color: hsla(0,0%,100%,0.1);
+    }
+    100%{
+        color: rgb(255, 255, 255);
+    }
+
+}

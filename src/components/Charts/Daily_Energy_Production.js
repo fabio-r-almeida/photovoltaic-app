@@ -18,7 +18,7 @@ return(
 <div className="chart">
 
 <Bar width={400}
-    height={200}
+    height={300}
        data={{
         labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
         datasets: [
@@ -27,26 +27,53 @@ return(
             label: "kWh/Day",
             data: this.props.ChartData,
             backgroundColor: [
-              'rgba(52, 152, 235, 0.8)'
+              'rgba(79, 247, 118, 0.8)'
             ],
             borderColor: [
-              'rgba(48, 236, 242)'
-            ]
+              'rgba(79, 247, 118)'
+            ],
+            borderWidth: 2
           },
         ],
       }}
 options={{
+  plugins: {
   title:{
     display:false,
-    text: 'Daily Energy Production'
+    text: 'Daily Energy Production',
+    color: 'rgb(255, 255, 255)'
   },
-    
+  legend: {
+    display: true,
+    labels: {
+        color: 'rgb(255, 255, 255)'
+    }},
+
+
+
+
 
     responsive:true,
     maintainAspectRatio:true,
 
-    
+  },
+  scales: {
+    y: {
+      ticks: { color: '#fff', beginAtZero: true }
+    },
+    x: {
+      ticks: { color: '#fff', beginAtZero: true }
+    }
+  },
+  elements: {
+    point:{
+        radius: 2
+    }
+}
   }}
+
+
+
   redraw
 
 />

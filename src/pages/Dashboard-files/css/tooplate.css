@@ -90,12 +90,18 @@ a:focus {
 }
 
 .tm-block {
+  padding: 20px 15px;
+  color:white
+}
+
+.tm-block1 {
   padding: 50px 45px;
+  color:white
 }
 
 .tm-block-title {
   font-size: 1.4rem;
-  color: #333;
+  color: white;
   margin-bottom: 30px;
 }
 
@@ -341,7 +347,7 @@ input[type="checkbox"] {
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
-  border: 1px solid black;
+  border: 1px solid fff;
   box-sizing: border-box;
   position: relative;
   box-sizing: content-box;
@@ -350,7 +356,7 @@ input[type="checkbox"] {
   transition: all 0.1s linear;
 }
 input[type="checkbox"]:checked {
-  background-color: #9f1321;
+  background-color: #fff;
 }
 input[type="checkbox"]:focus {
   outline: 0 none;

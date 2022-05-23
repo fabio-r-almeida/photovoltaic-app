@@ -18,7 +18,7 @@ return(
 <div className="chart">
 
 <Bar width={400}
-    height={200}
+    height={300}
        data={{
         labels: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
         datasets: [
@@ -36,16 +36,33 @@ return(
         ],
       }}
 options={{
-  title:{
-    display:false,
-    text: 'Daily_Irradiation'
-  },
+  plugins:{
+    title:{
+      display:false,
+      text: 'Daily Energy Production',
+      color: 'rgb(255, 255, 255)'
+    },
+    legend: {
+      display: true,
+      labels: {
+          color: 'rgb(255, 255, 255)'
+      }},
     
 
     responsive:true,
     maintainAspectRatio:true,
 
     
+  },
+
+  scales: {
+    y: {
+      ticks: { color: '#fff', beginAtZero: true }
+    },
+    x: {
+      ticks: { color: '#fff', beginAtZero: true }
+    }
+  }
   }}
   redraw
 

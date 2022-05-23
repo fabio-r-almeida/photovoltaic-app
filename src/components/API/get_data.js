@@ -6,7 +6,7 @@ const url = "https://photovoltaicapp.herokuapp.com/https://re.jrc.ec.europa.eu/a
 
 
   const get_input_data = async (long,lat, slope, azimuth, installed_power,loss) => {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve) => {
       if(isNaN(azimuth))
       azimuth = 0
       if(isNaN(slope))
@@ -17,13 +17,12 @@ const url = "https://photovoltaicapp.herokuapp.com/https://re.jrc.ec.europa.eu/a
       })
       .catch(err => {
         alert(err.response.data.message.replace('lon', 'Longitude').replace('lat', 'Latitude'))
-      document.getElementById("data").innerHTML = err.response.data.message.replace('lon', 'Longitude').replace('lat', 'Latitude')}
-      )  
+        document.location = window.location.pathname;
+            }      )  
   })
   };
   
   const get_output_data = async (long,lat, slope, azimuth, installed_power,loss) => {
-    console.log(url+"lat="+lat+"&lon="+long+ "&optimalinclination="+Number(slope)+ "&optimalangles=" +Number(azimuth) +"&peakpower="+installed_power+"&loss="+loss+"&outputformat=json")
     return new Promise((resolve) => {
       if(isNaN(azimuth))
       azimuth = 0
@@ -35,8 +34,9 @@ const url = "https://photovoltaicapp.herokuapp.com/https://re.jrc.ec.europa.eu/a
       })
       .catch(err => {
         alert(err.response.data.message.replace('lon', 'Longitude').replace('lat', 'Latitude'))
-      document.getElementById("data").innerHTML = err.response.data.message.replace('lon', 'Longitude').replace('lat', 'Latitude')}
-      )     
+         document.location = window.location.pathname;
+      }      )  
+     
   })
   };
 
@@ -52,15 +52,27 @@ const url = "https://photovoltaicapp.herokuapp.com/https://re.jrc.ec.europa.eu/a
       })
       .catch(err => {
         alert(err.response.data.message.replace('lon', 'Longitude').replace('lat', 'Latitude'))
-      document.getElementById("data").innerHTML = err.response.data.message.replace('lon', 'Longitude').replace('lat', 'Latitude')}
-      )     
+
+      }      )  
   })
   };
 
+  const get_address = async (long,lat) => {
+    return new Promise((resolve) => {
+      axios.get("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude="+lat+"&longitude="+long+"&localityLanguage=en")
+      .then((response)=>{
+        resolve(response.data.locality);
+      })
+      .catch(err => {
+        document.location = window.location.pathname;
+            }      )  
+  })
+  };
 
   
   export {
     get_input_data,
     get_output_data,
-    get_meta_data
+    get_meta_data,
+    get_address
   };

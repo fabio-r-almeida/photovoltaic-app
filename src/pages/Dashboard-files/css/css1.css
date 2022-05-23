@@ -220,3 +220,15 @@
   bottom: 1ex; 
   font-size: 80%;
 }
+
+
+hr {
+  clear: both;
+  visibility: hidden;
+}
+.vl {
+  margin-left: 10%;
+  border-left: 3px solid white;
+  height: 100%;
+}
+
