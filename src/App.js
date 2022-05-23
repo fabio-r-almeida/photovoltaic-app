@@ -10,7 +10,7 @@ import Dashboard from './pages/Dashboard';
   
 function App() {
 return (
-    <Router >
+    <Router>
  <Navbar />
     <Routes >
         <Route exact path={window.location.pathname} element={<DataEntry />} />

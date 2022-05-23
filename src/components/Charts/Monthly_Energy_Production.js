@@ -43,7 +43,7 @@ return(
           },
         ],
       }}
-      options={{
+      options={{animation: false,spanGaps: true,
         plugins:{
           title:{
             display:false,

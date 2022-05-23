@@ -11,6 +11,9 @@ import Spinner from './Spinner';
 import Cookies from 'universal-cookie';
 import CookieConsent, {getCookieConsentValue } from "react-cookie-consent";
 import {Corrected_Energy} from "../components/Math/Calculate";
+import {yearly_production_ma} from "../components/Math/Yearly_Production_calculations";
+import {get_yearly_production} from "../components/API/get_yearly_production";
+
 
 
 
@@ -47,6 +50,7 @@ class DataEntry extends Component {
       temp_coefficient:-0.38,
       total_expected_produced:0,
       total_real_produced:0,
+      yearly_production_MA:{},
 
       January_Monthly_Avarage_Irradiation:{},
       February_Monthly_Avarage_Irradiation:{},
@@ -135,6 +139,7 @@ class DataEntry extends Component {
     x.style.display = "none";
  
     window.addEventListener('load', this.get_cookies);
+    
 
 
   }
@@ -174,9 +179,6 @@ class DataEntry extends Component {
       this.setState({October_Real_Energy_Production:data[1].month10})
       this.setState({November_Real_Energy_Production:data[1].month11})
       this.setState({December_Real_Energy_Production:data[1].month12})
-
-      this.setState({total_expected_produced:data[3]})
-      this.setState({total_real_produced:data[2]})
 
    }
 
@@ -283,27 +285,39 @@ class DataEntry extends Component {
 
   async handle_output() {
 
-   this.setState({installed_power:this.state.nr_modules*this.state.power_per_module/1000})
-
+    this.setState({installed_power:this.state.nr_modules*this.state.power_per_module/1000})
     this.getChartData({});
+
     this.setState({loading:true})
     this.setState({loading_text:"Fetching Irradiation data"})
     const data= await get_output_data(this.state.long,this.state.lat,this.state.checkbox_slope,this.state.checkbox_azimuth,this.state.installed_power,this.state.loss);
     this.setState({loading_text:"Fetching Daily Data"})
-    const input = await get_input_data(this.state.long,this.state.lat,this.state.checkbox_slope,this.state.checkbox_azimuth,this.state.installed_power,this.state.loss);
+    const input = await get_input_data(this.state.long,this.state.lat,this.state.checkbox_slope,this.state.checkbox_azimuth,this.state.installed_power,this.state.loss,this.state.slope, this.state.azimuth);
     this.setState({loading_text:"Calculating Angles and Azimuths"})
+    this.setState({azimuth_to_dashboard: input.mounting_system.fixed.azimuth.value})
+    this.setState({slope_to_dashboard: input.mounting_system.fixed.slope.value})
     
-    const data_daily= await get_output_data_daily(this.state.long,this.state.lat,input.mounting_system.fixed.slope.value,input.mounting_system.fixed.azimuth.value);
+
+
+    const data_daily= await get_output_data_daily(this.state.long,this.state.lat,this.state.slope_to_dashboard,this.state.azimuth_to_dashboard);
 
     this.setState({loading_text:"Determination Location"})
     const address = await get_address(this.state.long,this.state.lat)
+    this.setState({address: address})
+
+    const yearly_production = await get_yearly_production(this.state.long,this.state.lat,this.state.slope_to_dashboard,this.state.azimuth_to_dashboard)
+
+    var yearly_production_data = yearly_production_ma(yearly_production,this.state.noct, this.state.temp_coefficient, this.state.installed_power,this.state.loss)
+    this.setState({yearly_production_MA:yearly_production_data[0]})
+    this.setState({total_real_produced:yearly_production_data[1]})
+    this.setState({total_expected_produced:yearly_production_data[2]})
 
     const corrected_energy_production = Corrected_Energy(data_daily,this.state.noct, this.state.temp_coefficient, this.state.installed_power)
     this.get_corrected_production(corrected_energy_production)
  
-    this.setState({azimuth_to_dashboard: input.mounting_system.fixed.azimuth.value})
-    this.setState({slope_to_dashboard: input.mounting_system.fixed.slope.value})
-    this.setState({address: address})
+
+
+
 
     this.getChartData(data);
     this.get_monthly_data(data_daily);
@@ -476,14 +490,14 @@ class DataEntry extends Component {
                               className="standard-container standard-root-className-name32"
                               >
                               <label className="standard-text">
-                              <span>Losses (%):</span>
+                              <span>Losses :</span>
                               </label>
                            </div>
                            <div
                               className="standard-container standard-root-className-name33"
                               >
                               <label className="standard-text">
-                              <span>Solar Power (kW):</span>
+                              <span>Solar Power:</span>
                               </label>
                            </div>
                            <div
@@ -502,13 +516,13 @@ class DataEntry extends Component {
                         <div className="test-container06">
                            <div className="losses-values-container">
                               <label className="losses-values-text">
-                              <span>{this.state.loss}</span>
+                              <span>{this.state.loss} %</span>
                               </label>
                            </div>
                            <div
                               className="standard-container standard-root-className-name36"
                               >
-                              <label className="standard-text"><span>{this.state.power_per_module*this.state.nr_modules/1000}</span></label>
+                              <label className="standard-text"><span>{this.state.power_per_module*this.state.nr_modules/1000} kW</span></label>
                            </div>
                            <div
                               className="standard-container standard-root-className-name37"
@@ -625,6 +639,7 @@ class DataEntry extends Component {
 
       total_real_produced={this.state.total_real_produced}
       total_expected_produced={this.state.total_expected_produced}
+      yearly_production_MA={this.state.yearly_production_MA}
 
       January_Monthly_Avarage_Irradiation={this.state.January_Monthly_Avarage_Irradiation}
       February_Monthly_Avarage_Irradiation={this.state.February_Monthly_Avarage_Irradiation}
@@ -677,7 +692,7 @@ class DataEntry extends Component {
       October_Real_Energy_Production={this.state.October_Real_Energy_Production}
       November_Real_Energy_Production={this.state.November_Real_Energy_Production}
       December_Real_Energy_Production={this.state.December_Real_Energy_Production}
-
+      loading="lazy"
       />
 </div>
 <CookieConsent

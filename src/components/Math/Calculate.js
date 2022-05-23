@@ -25,7 +25,7 @@ const Corrected_Energy = (ChartData_Energy,noct,alpha,pvstc) => {
       total_expected = total_expected + pvmax*30
       total_produced = total_produced + pv_mppt*30
       }
-      real_data.push(value_month["G(i)"])
+      real_data.push(value_month["G(i)"]*pvstc/1000)
 })
 
 

@@ -9,7 +9,8 @@ constructor(props){
   this.state = {
     ChartData_Corrected_Energy:props.ChartData_Corrected_Energy,
     ChartData_Real_Energy:props.ChartData_Real_Energy,
-    losses:props.losses
+    losses:props.losses,
+    maximum:props.maximum
   }
 }
 
@@ -68,6 +69,8 @@ return(
         ],
       }}
 options={{
+  animation: false,spanGaps: true,
+
   plugins: {
   title:{
     display:false,
@@ -91,18 +94,18 @@ options={{
   scales: {
     y: {
       min: 0,
-      max: 1000,
+      max: this.props.maximum ,
       ticks: { color: '#fff', beginAtZero: true,    }
       
     },
     y1: {
       min: 0,
-      max: 1000 ,
+      max: this.props.maximum ,
       ticks: { color: '#fff', beginAtZero: true, }
     },
 y2: {
   min: 0,
-  max: 1000 ,
+  max: this.props.maximum,
   ticks: { color: '#fff', beginAtZero: true,  }
 },
     x: {
@@ -111,7 +114,7 @@ y2: {
   },
   elements: {
     point:{
-        radius: 0.5
+        radius: 0
     }
 }
   }}

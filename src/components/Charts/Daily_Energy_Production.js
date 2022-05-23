@@ -36,7 +36,7 @@ return(
           },
         ],
       }}
-options={{
+options={{animation: false,spanGaps: true,
   plugins: {
   title:{
     display:false,
@@ -67,7 +67,7 @@ options={{
   },
   elements: {
     point:{
-        radius: 2
+        radius: 0
     }
 }
   }}

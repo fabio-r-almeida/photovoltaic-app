@@ -50,7 +50,7 @@ return(
           },
         ]
       }}
-options={{
+options={{animation: false,spanGaps: true,
   plugins: {
   title:{
     display:false,
@@ -84,7 +84,7 @@ options={{
   },
   elements: {
     point:{
-        radius: 1
+        radius:0
     }
 }
   }}

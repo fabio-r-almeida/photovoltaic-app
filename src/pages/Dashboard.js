@@ -12,7 +12,7 @@ import Daily_Energy_Production from "../components/Charts/Daily_Energy_Productio
 import Daily_Irradiation from "../components/Charts/Daily_Irradiation";
 import Daily_Radiation_Per_Month from "../components/Charts/Daily_Radiation_Per_Month";
 import Corrected_Energy_Production from "../components/Charts/Corrected_Energy_Production";
-
+import Yearly_Production from "../components/Charts/Yearly_Production";
 class Dashboard extends Component {
       constructor(props) {
         super(props);
@@ -32,9 +32,11 @@ class Dashboard extends Component {
           button_text:"This button does absolutly nothing",
           total_real_produced:props.total_real_produced,
           total_expected_produced:props.total_expected_produced,
-          hide_avarage_solar_irradiation_button:"Hide Solar Irradiation",
+          hide_avarage_solar_irradiation_button:"Show Solar Irradiation",
           hide_avarage_solar_irradiation_per_hour_per_month_button:"Show Solar Irradiation per hour/month",
           hide_real_vs_expected_button:"Show Energy Production per hour",
+          hide_yearly_production_button:"Hide Yearly Production MA",
+          yearly_production_MA:props.yearly_production_MA,
 
 
           January_Monthly_Avarage_Irradiation:props.January_Monthly_Avarage_Irradiation,
@@ -94,6 +96,7 @@ class Dashboard extends Component {
 this.hide_avarage_solar_irradiation=this.hide_avarage_solar_irradiation.bind(this)
 this.hide_avarage_solar_irradiation_per_hour_per_month=this.hide_avarage_solar_irradiation_per_hour_per_month.bind(this)
 this.hide_real_vs_expected=this.hide_real_vs_expected.bind(this)
+this.hide_yearly_production=this.hide_yearly_production.bind(this)
 
 
       }
@@ -105,7 +108,10 @@ this.hide_real_vs_expected=this.hide_real_vs_expected.bind(this)
             this.setState({hide_avarage_solar_irradiation_button:"Hide Solar Irradiation"})
             this.setState({hide_avarage_solar_irradiation_per_hour_per_month_button:"Show Solar Irradiation per hour/month"})
             this.setState({hide_real_vs_expected_button:"Show Energy Production per hour"})
+            this.setState({hide_yearly_production_button:"Show Yearly Production MA"})
+
            x.style.display = "block";
+           document.getElementById("Yearly Production MA").style.display = "none";
            document.getElementById("Average Temperature and Irradiation Hourly per Month").style.display = "none";
            document.getElementById("Real vs Ideal Energy Production").style.display = "none";
          } else {
@@ -120,9 +126,13 @@ this.hide_real_vs_expected=this.hide_real_vs_expected.bind(this)
            x.style.display = "block";
            document.getElementById("Avarage Solar Irradiation").style.display = "none";
            document.getElementById("Real vs Ideal Energy Production").style.display = "none";
+           document.getElementById("Yearly Production MA").style.display = "none";
+
            this.setState({hide_avarage_solar_irradiation_button:"Show Solar Irradiation"})
            this.setState({hide_avarage_solar_irradiation_per_hour_per_month_button:"Hide Solar Irradiation per hour/month"})
            this.setState({hide_real_vs_expected_button:"Show Energy Production per hour"})
+           this.setState({hide_yearly_production_button:"Show Yearly Production MA"})
+
          } else {
             this.setState({hide_avarage_solar_irradiation_per_hour_per_month_button:"Show Solar Irradiation per hour/month"})
            x.style.display = "none";
@@ -133,15 +143,42 @@ this.hide_real_vs_expected=this.hide_real_vs_expected.bind(this)
          if (x.style.display === "none") {
             document.getElementById("Avarage Solar Irradiation").style.display = "none";
             document.getElementById("Average Temperature and Irradiation Hourly per Month").style.display = "none";
+            document.getElementById("Yearly Production MA").style.display = "none";
+
             this.setState({hide_avarage_solar_irradiation_button:"Show Solar Irradiation"})
             this.setState({hide_avarage_solar_irradiation_per_hour_per_month_button:"Show Solar Irradiation per hour/month"})
             this.setState({hide_real_vs_expected_button:"Hide Energy Production per hour"})
+            this.setState({hide_yearly_production_button:"Show Yearly Production"})
+
             x.style.display = "block";
          } else {
             this.setState({hide_real_vs_expected_button:"Show Energy Production per hour"})
            x.style.display = "none";
          }
-       }
+      }
+
+         hide_yearly_production() {
+            var x = document.getElementById("Yearly Production MA");
+            if (x.style.display === "none") {
+               document.getElementById("Avarage Solar Irradiation").style.display = "none";
+               document.getElementById("Average Temperature and Irradiation Hourly per Month").style.display = "none";
+               document.getElementById("Real vs Ideal Energy Production").style.display = "none";
+   
+               this.setState({hide_avarage_solar_irradiation_button:"Show Solar Irradiation"})
+               this.setState({hide_avarage_solar_irradiation_per_hour_per_month_button:"Show Solar Irradiation per hour/month"})
+               this.setState({hide_real_vs_expected_button:"Show Energy Production per hour"})
+               this.setState({hide_yearly_production_button:"Hide Yearly Production"})
+   
+               x.style.display = "block";
+            } else {
+               this.setState({hide_real_vs_expected_button:"Show Yearly Production"})
+              x.style.display = "none";
+            }
+         }
+
+
+
+       
      
 /*     
 <div
@@ -162,6 +199,12 @@ return (
 <div 
             className="calculate-button-container calculate-button-root-className-name3"
             >
+            <button className="learn-more"  onClick={this.hide_yearly_production}>
+            <span className="circle" aria-hidden="true">
+            <span className="icon arrow"></span>
+            </span>
+            <span className="button-text">{this.state.hide_yearly_production_button}</span>
+            </button>
             <button className="learn-more"  onClick={this.hide_avarage_solar_irradiation}>
             <span className="circle" aria-hidden="true">
             <span className="icon arrow"></span>
@@ -195,7 +238,7 @@ return (
 <div className="data-input-container">
    <div className="standard-container standard-root-className-name31">
       <label className="standard-text">
-         <h1>Used Parameters</h1>
+         <h1>User Parameters</h1>
       </label>
    </div>
       <div className="test-container04">
@@ -219,7 +262,7 @@ return (
                className="standard-container standard-root-className-name32"
                >
                <label className="standard-text">
-               <span>Real Produced Energy :     {(this.props.total_real_produced*(1-this.props.loss/100)).toFixed(2)} kWh</span>
+               <span>Real Produced Energy :     {(this.props.total_real_produced).toFixed(2)} kWh</span>
                </label>
             </div>
             <div
@@ -228,6 +271,15 @@ return (
                <label className="standard-text">
                <span>Installed Solar Power :    {this.props.installed_power} kW</span>
                </label>
+               
+            </div>
+            <div
+               className="standard-container standard-root-className-name33"
+               >
+               <label style={{color:"white"}}>
+               <span>Note: <br />Expected Production uses a avarage values per month<br />  Real Production: uses 2020 real values </span>
+               </label>
+               
             </div>
          </div>
          
@@ -279,7 +331,7 @@ return (
    <div className="" id="home">
 
       <div className="container">
-      <div id="Avarage Solar Irradiation" style={{display:"block"}}>
+      <div id="Avarage Solar Irradiation" style={{display:"none"}} loading="lazy">
       <h1 className="tm-block1-title">Average Solar Irradiation and Energy Production</h1>
          <div className="row tm-content-row tm-mt-big">
             <div className="tm-col tm-col-small">
@@ -308,13 +360,23 @@ return (
             </div>
          </div>
          </div>
+
+         <div id="Yearly Production MA" style={{display:"block"}} loading="lazy">
+      <h1 className="tm-block1-title">Yearly Production</h1>
+         <div className="row tm-content-row tm-mt-big">
+                  <h2 className="tm-block-title">Average Monthly sum irradiation per m<sup>2</sup></h2>
+         </div>
+         <Yearly_Production ChartData={this.props.yearly_production_MA} />
+
+         </div>
+
          <hr>
          </hr>
          <hr>
          </hr>
          <hr>
          </hr>
-         <div id = "Average Temperature and Irradiation Hourly per Month" style={{display :"none"}}>
+         <div id = "Average Temperature and Irradiation Hourly per Month" style={{display :"none"}} loading="lazy">
          <h1 className="tm-block1-title">Average Temperature and Irradiation Hourly per Month</h1>
          <div className="container">
             <div className="row tm-content-row tm-mt-big">
@@ -411,7 +473,7 @@ return (
          </hr>
          <hr>
          </hr>
-         <div id="Real vs Ideal Energy Production" style={{display :"none"}}>  
+         <div id="Real vs Ideal Energy Production" style={{display :"none"}} loading="lazy">  
          <h1 className="tm-block1-title">Real vs Ideal Energy Production</h1>
          <div className="container">
             <div className="row tm-content-row tm-mt-big">
@@ -419,84 +481,84 @@ return (
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">January</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.January_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.January_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.January_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">February</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.February_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.February_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.February_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">March</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.March_Corrected_Energy_Production}
-                     ChartData_Real_Energy={this.props.March_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.March_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">April</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.April_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.April_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.April_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">May</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.May_Corrected_Energy_Production}
-                     ChartData_Real_Energy={this.props.May_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.May_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">June</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.June_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.June_Real_Energy_Production}losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.June_Real_Energy_Production}losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">July</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.July_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.July_Real_Energy_Production}losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.July_Real_Energy_Production}losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">August</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.August_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.August_Real_Energy_Production}losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.August_Real_Energy_Production}losses={this.props.loss} maximum={this.props.installed_power*1000} />
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">September</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.September_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.September_Real_Energy_Production}losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.September_Real_Energy_Production}losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">October</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.October_Corrected_Energy_Production}
-                     ChartData_Real_Energy={this.props.October_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.October_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000} />
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">November</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.November_Corrected_Energy_Production} 
-                     ChartData_Real_Energy={this.props.November_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.November_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000}/>
                   </div>
                </div>
                <div className="tm-col tm-col-small">
                   <div className="bg-white tm-block h-100">
                      <h2 className="tm-block-title">December</h2>
                      <Corrected_Energy_Production ChartData_Corrected_Energy={this.props.December_Corrected_Energy_Production}
-                     ChartData_Real_Energy={this.props.December_Real_Energy_Production} losses={this.props.loss} />
+                     ChartData_Real_Energy={this.props.December_Real_Energy_Production} losses={this.props.loss} maximum={this.props.installed_power*1000} />
                   </div>
                </div>
             </div>

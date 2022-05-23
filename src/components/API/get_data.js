@@ -5,13 +5,20 @@ const url = "https://photovoltaicapp.herokuapp.com/https://re.jrc.ec.europa.eu/a
 //heroku config:set -a photovoltaicapp CORSANYWHERE_RATELIMIT="/(.*\.)?fabio-almeida\.com/ /(.*\.)?fabio-r-almeida\.github.io/"
 
 
-  const get_input_data = async (long,lat, slope, azimuth, installed_power,loss) => {
+  const get_input_data = async (long,lat, slope, azimuth, installed_power,loss,slope_value,azimuth_value) => {
+
     return new Promise((resolve) => {
       if(isNaN(azimuth))
       azimuth = 0
       if(isNaN(slope))
       slope = 0
-      axios.get(url+"lat="+lat+"&lon="+long+ "&optimalinclination="+Number(slope)+ "&optimalangles=" +Number(azimuth) +"&peakpower="+installed_power+"&loss="+loss+"&outputformat=json")
+      if(azimuth_value=="Optimized")
+      azimuth_value=0
+      if(slope_value=="Optimized")
+      slope_value=0
+
+
+      axios.get(url+"lat="+lat+"&lon="+long+ "&angle="+slope_value+"&aspect="+azimuth_value+"&optimalinclination="+Number(slope)+ "&optimalangles=" +Number(azimuth) +"&peakpower="+installed_power+"&loss="+loss+"&outputformat=json")
       .then((response)=>{
         resolve(response.data['inputs']);
       })

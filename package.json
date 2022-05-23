@@ -1,5 +1,5 @@
 {
-  "homepage": "http://fabio-r-almeida.github.io/photovoltaic-app",
+  "homepage": "http://solar.fabio-almeida.com",
   "name": "photovoltaic-app",
   "version": "0.1.0",
   "private": true,
@@ -10,6 +10,7 @@
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.27.2",
     "chart.js": "^3.7.1",
+    "moving-averages": "^4.0.6",
     "react": "^18.1.0",
     "react-chartjs-2": "^4.1.0",
     "react-cookie-consent": "^7.4.1",
