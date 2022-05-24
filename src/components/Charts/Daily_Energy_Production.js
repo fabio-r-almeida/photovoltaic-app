@@ -24,7 +24,7 @@ return(
         datasets: [
           {
             // Label for bars
-            label: "kWh/Day",
+
             data: this.props.ChartData,
             backgroundColor: [
               'rgba(79, 247, 118, 0.8)'
@@ -44,7 +44,7 @@ options={{animation: false,spanGaps: true,
     color: 'rgb(255, 255, 255)'
   },
   legend: {
-    display: true,
+    display: false,
     labels: {
         color: 'rgb(255, 255, 255)'
     }},
@@ -59,7 +59,10 @@ options={{animation: false,spanGaps: true,
   },
   scales: {
     y: {
-      ticks: { color: '#fff', beginAtZero: true }
+      ticks: { color: '#fff', beginAtZero: true    ,
+         callback: function(value, index, ticks) {
+        return 'kW·h/m² ' + value;
+    }}
     },
     x: {
       ticks: { color: '#fff', beginAtZero: true }

@@ -23,8 +23,8 @@ class DataEntry extends Component {
   constructor() {
     super();
     this.state = {
-      long: "-9.3146",
-      lat: "38.6969",
+      long: "12",
+      lat: "45",
       loss: 14,
       installed_power:1,
       slope:0,
@@ -43,7 +43,6 @@ class DataEntry extends Component {
       pv_technology:"c-Si",
       address:"",
       loading:false,
-      loading_text:"",
       noct:47,
       nr_modules:4,
       power_per_module:250,
@@ -52,57 +51,9 @@ class DataEntry extends Component {
       total_real_produced:0,
       yearly_production_MA:{},
 
-      January_Monthly_Avarage_Irradiation:{},
-      February_Monthly_Avarage_Irradiation:{},
-      March_Monthly_Avarage_Irradiation:{},
-      April_Monthly_Avarage_Irradiation:{},
-      May_Monthly_Avarage_Irradiation:{},
-      June_Monthly_Avarage_Irradiation:{},
-      July_Monthly_Avarage_Irradiation:{},
-      August_Monthly_Avarage_Irradiation:{},
-      September_Monthly_Avarage_Irradiation:{},
-      October_Monthly_Avarage_Irradiation:{},
-      November_Monthly_Avarage_Irradiation:{},
-      December_Monthly_Avarage_Irradiation:{},
 
-      January_Monthly_Avarage_Temperature:{},
-      February_Monthly_Avarage_Temperature:{},
-      March_Monthly_Avarage_Temperature:{},
-      April_Monthly_Avarage_Temperature:{},
-      May_Monthly_Avarage_Temperature:{},
-      June_Monthly_Avarage_Temperature:{},
-      July_Monthly_Avarage_Temperature:{},
-      August_Monthly_Avarage_Temperature:{},
-      September_Monthly_Avarage_Temperature:{},
-      October_Monthly_Avarage_Temperature:{},
-      November_Monthly_Avarage_Temperature:{},
-      December_Monthly_Avarage_Temperature:{},
-
-      January_Corrected_Energy_Production:{},
-      February_Corrected_Energy_Production:{},
-      March_Corrected_Energy_Production:{},
-      April_Corrected_Energy_Production:{},
-      May_Corrected_Energy_Production:{},
-      June_Corrected_Energy_Production:{},
-      July_Corrected_Energy_Production:{},
-      August_Corrected_Energy_Production:{},
-      September_Corrected_Energy_Production:{},
-      October_Corrected_Energy_Production:{},
-      November_Corrected_Energy_Production:{},
-      December_Corrected_Energy_Production:{},
-
-      January_Real_Energy_Production:{},
-      February_Real_Energy_Production:{},
-      March_Real_Energy_Production:{},
-      April_Real_Energy_Production:{},
-      May_Real_Energy_Production:{},
-      June_Real_Energy_Production:{},
-      July_Real_Energy_Production:{},
-      August_Real_Energy_Production:{},
-      September_Real_Energy_Production:{},
-      October_Real_Energy_Production:{},
-      November_Real_Energy_Production:{},
-      December_Real_Energy_Production:{},
+      Average_Temp_And_Irradiation_data:{},
+      Corrected_Energy_Production:{},
       
     };
     this.handle_output = this.handle_output.bind(this);
@@ -135,14 +86,9 @@ class DataEntry extends Component {
   componentDidMount() {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     this.getChartData(this.state.Data);
-    var x = document.getElementById("dashboard");
-    x.style.display = "none";
- 
-    window.addEventListener('load', this.get_cookies);
-    
-
-
   }
+
+
   use_my_location = () => {
     navigator.geolocation.getCurrentPosition((position) => {
         this.setState({ lat: position.coords.latitude });
@@ -152,34 +98,22 @@ class DataEntry extends Component {
 
 
    get_corrected_production(data) {
-   
- 
-      this.setState({January_Corrected_Energy_Production:data[0].month1})
-      this.setState({February_Corrected_Energy_Production:data[0].month2})
-      this.setState({March_Corrected_Energy_Production:data[0].month3})
-      this.setState({April_Corrected_Energy_Production:data[0].month4})
-      this.setState({May_Corrected_Energy_Production:data[0].month5})
-      this.setState({June_Corrected_Energy_Production:data[0].month6})
-      this.setState({July_Corrected_Energy_Production:data[0].month7})
-      this.setState({August_Corrected_Energy_Production:data[0].month8})
-      this.setState({September_Corrected_Energy_Production:data[0].month9})
-      this.setState({October_Corrected_Energy_Production:data[0].month10})
-      this.setState({November_Corrected_Energy_Production:data[0].month11})
-      this.setState({December_Corrected_Energy_Production:data[0].month12})
-
-      this.setState({January_Real_Energy_Production:data[1].month1})
-      this.setState({February_Real_Energy_Production:data[1].month2})
-      this.setState({March_Real_Energy_Production:data[1].month3})
-      this.setState({April_Real_Energy_Production:data[1].month4})
-      this.setState({May_Real_Energy_Production:data[1].month5})
-      this.setState({June_Real_Energy_Production:data[1].month6})
-      this.setState({July_Real_Energy_Production:data[1].month7})
-      this.setState({August_Real_Energy_Production:data[1].month8})
-      this.setState({September_Real_Energy_Production:data[1].month9})
-      this.setState({October_Real_Energy_Production:data[1].month10})
-      this.setState({November_Real_Energy_Production:data[1].month11})
-      this.setState({December_Real_Energy_Production:data[1].month12})
-
+    var i=1
+    var total_data=[]
+      data.forEach((keys) => {
+         for(var k=1; k<=12;k++)
+         {
+         const month = 'month'+i
+         if(typeof keys[month] !== "undefined")
+         total_data.push(keys[month])
+         if(i===12)
+         i=1
+         i++
+         }
+      });
+      this.setState({Corrected_Energy_Production:total_data})
+      
+      
    }
 
 
@@ -215,93 +149,38 @@ class DataEntry extends Component {
   }
 
   get_monthly_data(data) {
+   var total_data=[]
    try {
       data.forEach((value) => {
         var global_irradiance =  [];
         var temperature =  [];
         value.data.outputs.daily_profile.forEach((value_month) => {
-
             global_irradiance.push(value_month["G(i)"])
             temperature.push(value_month["T2m"])
-            if(value_month.month === 1 && temperature.length===24){
-              this.setState({January_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({January_Monthly_Avarage_Temperature: temperature }); 
+            if(global_irradiance.length===24){
+            total_data.push(global_irradiance)
+            total_data.push(temperature)
             }
-            if(value_month.month === 2 && temperature.length===24){
-              this.setState({February_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({February_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 3 && temperature.length===24){
-              this.setState({March_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({March_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 4 && temperature.length===24){
-              this.setState({April_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({April_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 5 && temperature.length===24){
-              this.setState({May_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({May_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 6 && temperature.length===24){
-              this.setState({June_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({June_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 7 && temperature.length===24){
-              this.setState({July_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({July_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 8 && temperature.length===24){
-              this.setState({August_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({August_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 9 && temperature.length===24){
-              this.setState({September_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({September_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 10 && temperature.length===24){
-              this.setState({October_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({October_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 11 && temperature.length===24){
-              this.setState({November_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({November_Monthly_Avarage_Temperature: temperature });
-            }
-            if(value_month.month === 12 && temperature.length===24){
-              this.setState({December_Monthly_Avarage_Irradiation: global_irradiance });
-              this.setState({December_Monthly_Avarage_Temperature: temperature });
-              
-            }
-
-
-            
         });
       });
     } catch (e) {}
-
+    this.setState({Average_Temp_And_Irradiation_data:total_data})
   }
 
 
 
   async handle_output() {
-
-    this.setState({installed_power:this.state.nr_modules*this.state.power_per_module/1000})
-    this.getChartData({});
-
     this.setState({loading:true})
-    this.setState({loading_text:"Fetching Irradiation data"})
+    this.setState({installed_power:this.state.nr_modules*this.state.power_per_module/1000})
+
     const data= await get_output_data(this.state.long,this.state.lat,this.state.checkbox_slope,this.state.checkbox_azimuth,this.state.installed_power,this.state.loss);
-    this.setState({loading_text:"Fetching Daily Data"})
     const input = await get_input_data(this.state.long,this.state.lat,this.state.checkbox_slope,this.state.checkbox_azimuth,this.state.installed_power,this.state.loss,this.state.slope, this.state.azimuth);
-    this.setState({loading_text:"Calculating Angles and Azimuths"})
+    
     this.setState({azimuth_to_dashboard: input.mounting_system.fixed.azimuth.value})
     this.setState({slope_to_dashboard: input.mounting_system.fixed.slope.value})
     
-
-
     const data_daily= await get_output_data_daily(this.state.long,this.state.lat,this.state.slope_to_dashboard,this.state.azimuth_to_dashboard);
 
-    this.setState({loading_text:"Determination Location"})
     const address = await get_address(this.state.long,this.state.lat)
     this.setState({address: address})
 
@@ -322,7 +201,6 @@ class DataEntry extends Component {
     this.getChartData(data);
     this.get_monthly_data(data_daily);
     this.setState({loading:false})
-    this.setState({loading_text:""})
 
 
     this.set_cookies()
@@ -385,7 +263,6 @@ class DataEntry extends Component {
       return (
         
 <>
-
 <div id="input_data">
    <div className="test-container">
       <div className="test-features">
@@ -472,12 +349,8 @@ class DataEntry extends Component {
                                     </label>
                                  </div>
                               </div>
-                              
-                              
                            </div>
-                           
                         </div>
-                        
                      </div>
                      <div className="standard-container standard-root-className-name31">
                         <label className="standard-text">
@@ -536,31 +409,26 @@ class DataEntry extends Component {
                            </div>
                         </div>
                      </div>
-
                   </div>
                </div>
                <div className="test-container02">
-               <img
-                           alt="image_text"
-                           src={solar_module}
-                           loading="lazy"
-                           />
+                  <img
+                     alt="image_text"
+                     src={solar_module}
+                     loading="lazy"
+                     />
                   <div className="test-container03">
-                     
                      <div className="data-input-container">
-                        
                         <h2 className="data-input-text"><span>Module Eletrical Specifications</span></h2>
                      </div>
-                     
                      <div className="longitude-container">
-                        
-                     <label className="noct-text"><span>Peak Power Output</span></label>
+                        <label className="noct-text"><span>Peak Power Output</span></label>
                      </div>
                      <div className="input-container">
                         <input className="noct-textinput input" placeholder="250" value={this.state.power_per_module} onChange={(e)=> {this.setState({power_per_module:e.target.value})}}></input>
                      </div>
                      <div className="longitude-container">
-                     <label className="noct-text"><span>Number of Modules</span></label>
+                        <label className="noct-text"><span>Number of Modules</span></label>
                      </div>
                      <div className="input-container">
                         <input className="noct-textinput input" placeholder="4" value={this.state.nr_modules} onChange={(e)=> {this.setState({nr_modules:e.target.value})}}></input>
@@ -572,17 +440,14 @@ class DataEntry extends Component {
                         <input className="noct-textinput input" placeholder="47" value={this.state.noct} onChange={(e)=> {this.setState({noct:e.target.value})}}></input>
                      </div>
                      <div className="longitude-container">
-
                         <label className="noct-text"><span>Temperature coefficient (%/ °C)</span></label>
                      </div>
                      <div className="input-container">
                         <input className="noct-textinput input" placeholder="-0.38" value={this.state.temp_coefficient} onChange={(e)=> {
-                          if(e.target.value>0)
-                          alert("Please confirm if this value if positive.\nFor the most part it is negative")
-                          this.setState({temp_coefficient:e.target.value})}}></input>
+                        if(e.target.value>0)
+                        alert("Please confirm if this value if positive.\nFor the most part it is negative")
+                        this.setState({temp_coefficient:e.target.value})}}></input>
                      </div>
-                     
-
                      <button className="learn-more"  onClick={this.handle_output}>
                      <span className="circle" aria-hidden="true">
                      <span className="icon arrow"></span>
@@ -590,28 +455,10 @@ class DataEntry extends Component {
                      <span className="button-text">Calculate</span>
                      </button>
                   </div>
-           
-                  
-                  
-
                </div>
- 
-               
-
             </div>
-
-
-
-
-
-            
          </div>
-
       </div>
-
-
-
-
       <footer className="test-footer">
          <span className="test-text">
          © 2022 Photovoltaic Calculator, All Rights Reserved.
@@ -620,79 +467,27 @@ class DataEntry extends Component {
    </div>
 </div>
 {this.state.loading && 
-               <div className="fadeMe">
-                  <Spinner>{this.state.loading_text}</Spinner>
-               </div>
-               }
-<div id="dashboard">
+<div className="fadeMe">
+   <Spinner></Spinner>
+</div>
+}
+<div id="dashboard" style={{display:"none"}}>
    <Dashboard 
-      Monthly_Energy_charData={this.state.Monthly_Energy_charData}
-      Daily_Energy_charData={this.state.Daily_Energy_charData}
-      Monthly_Irradiation_charData={this.state.Monthly_Irradiation_charData}
-      Daily_Irradiation_charData={this.state.Daily_Irradiation_charData}
       installed_power={this.state.installed_power}
       loss={this.state.loss}
       azimuth={this.state.azimuth_to_dashboard}
       slope={this.state.slope_to_dashboard}
       pv_technology={this.state.pv_technology}
       address={this.state.address}
-
       total_real_produced={this.state.total_real_produced}
       total_expected_produced={this.state.total_expected_produced}
       yearly_production_MA={this.state.yearly_production_MA}
-
-      January_Monthly_Avarage_Irradiation={this.state.January_Monthly_Avarage_Irradiation}
-      February_Monthly_Avarage_Irradiation={this.state.February_Monthly_Avarage_Irradiation}
-      March_Monthly_Avarage_Irradiation={this.state.March_Monthly_Avarage_Irradiation}
-      April_Monthly_Avarage_Irradiation={this.state.April_Monthly_Avarage_Irradiation}
-      May_Monthly_Avarage_Irradiation={this.state.May_Monthly_Avarage_Irradiation}
-      June_Monthly_Avarage_Irradiation={this.state.June_Monthly_Avarage_Irradiation}
-      July_Monthly_Avarage_Irradiation={this.state.July_Monthly_Avarage_Irradiation}
-      August_Monthly_Avarage_Irradiation={this.state.August_Monthly_Avarage_Irradiation}
-      September_Monthly_Avarage_Irradiation={this.state.September_Monthly_Avarage_Irradiation}
-      October_Monthly_Avarage_Irradiation={this.state.October_Monthly_Avarage_Irradiation}
-      November_Monthly_Avarage_Irradiation={this.state.November_Monthly_Avarage_Irradiation}
-      December_Monthly_Avarage_Irradiation={this.state.December_Monthly_Avarage_Irradiation}
-
-      January_Monthly_Avarage_Temperature={this.state.January_Monthly_Avarage_Temperature}
-      February_Monthly_Avarage_Temperature={this.state.February_Monthly_Avarage_Temperature}
-      March_Monthly_Avarage_Temperature={this.state.March_Monthly_Avarage_Temperature}
-      April_Monthly_Avarage_Temperature={this.state.April_Monthly_Avarage_Temperature}
-      May_Monthly_Avarage_Temperature={this.state.May_Monthly_Avarage_Temperature}
-      June_Monthly_Avarage_Temperature={this.state.June_Monthly_Avarage_Temperature}
-      July_Monthly_Avarage_Temperature={this.state.July_Monthly_Avarage_Temperature}
-      August_Monthly_Avarage_Temperature={this.state.August_Monthly_Avarage_Temperature}
-      September_Monthly_Avarage_Temperature={this.state.September_Monthly_Avarage_Temperature}
-      October_Monthly_Avarage_Temperature={this.state.October_Monthly_Avarage_Temperature}
-      November_Monthly_Avarage_Temperature={this.state.November_Monthly_Avarage_Temperature}
-      December_Monthly_Avarage_Temperature={this.state.December_Monthly_Avarage_Temperature}
-
-      January_Corrected_Energy_Production={this.state.January_Corrected_Energy_Production}
-      February_Corrected_Energy_Production={this.state.February_Corrected_Energy_Production}
-      March_Corrected_Energy_Production={this.state.March_Corrected_Energy_Production}
-      April_Corrected_Energy_Production={this.state.April_Corrected_Energy_Production}
-      May_Corrected_Energy_Production={this.state.May_Corrected_Energy_Production}
-      June_Corrected_Energy_Production={this.state.June_Corrected_Energy_Production}
-      July_Corrected_Energy_Production={this.state.July_Corrected_Energy_Production}
-      August_Corrected_Energy_Production={this.state.August_Corrected_Energy_Production}
-      September_Corrected_Energy_Production={this.state.September_Corrected_Energy_Production}
-      October_Corrected_Energy_Production={this.state.October_Corrected_Energy_Production}
-      November_Corrected_Energy_Production={this.state.November_Corrected_Energy_Production}
-      December_Corrected_Energy_Production={this.state.December_Corrected_Energy_Production}
-
-      January_Real_Energy_Production={this.state.January_Real_Energy_Production}
-      February_Real_Energy_Production={this.state.February_Real_Energy_Production}
-      March_Real_Energy_Production={this.state.March_Real_Energy_Production}
-      April_Real_Energy_Production={this.state.April_Real_Energy_Production}
-      May_Real_Energy_Production={this.state.May_Real_Energy_Production}
-      June_Real_Energy_Production={this.state.June_Real_Energy_Production}
-      July_Real_Energy_Production={this.state.July_Real_Energy_Production}
-      August_Real_Energy_Production={this.state.August_Real_Energy_Production}
-      September_Real_Energy_Production={this.state.September_Real_Energy_Production}
-      October_Real_Energy_Production={this.state.October_Real_Energy_Production}
-      November_Real_Energy_Production={this.state.November_Real_Energy_Production}
-      December_Real_Energy_Production={this.state.December_Real_Energy_Production}
-      loading="lazy"
+      Average_Temp_And_Irradiation_data={this.state.Average_Temp_And_Irradiation_data}
+      Corrected_Energy_Production={this.state.Corrected_Energy_Production}      
+      Monthly_Energy_charData={this.state.Monthly_Energy_charData}
+      Daily_Energy_charData={this.state.Daily_Energy_charData}
+      Monthly_Irradiation_charData={this.state.Monthly_Irradiation_charData}
+      Daily_Irradiation_charData={this.state.Daily_Irradiation_charData}
       />
 </div>
 <CookieConsent
@@ -701,8 +496,7 @@ class DataEntry extends Component {
    containerClasses="alert alert-warning col-lg-12"
    contentClasses="text-capitalize"
    expires={7}
-   > This website uses cookies to enhance the user experience. The cookies are automatically deleted after 7 days.{" "}
-</CookieConsent>
+   > This website uses cookies to enhance the user experience. The cookies are automatically deleted after 7 days.{" "}</CookieConsent>
 </>
 
       );

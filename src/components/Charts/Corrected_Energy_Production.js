@@ -27,7 +27,7 @@ return(
         datasets: [
           {
             // Label for bars
-            label: "Real Energy (Wh/m^2)",
+            label: "Real Energy ",
             data: this.props.ChartData_Corrected_Energy,
             backgroundColor: [
               'rgba(255,255,51, 1)'
@@ -40,8 +40,8 @@ return(
           },
           {
             // Label for bars
-            label: "Real Energy after losses (Wh/m^2)",
-            data: Object.values(this.props.ChartData_Corrected_Energy).map(x => x * (1 - this.props.losses/100)),
+            label: "Real Energy after losses ",
+            data: this.props.ChartData_Corrected_Energy,//Object.values(this.props.ChartData_Corrected_Energy).map(x => x * (1 - this.props.losses/100)),
             backgroundColor: [
               'rgba(79, 247, 118, 1)'
             ],
@@ -54,7 +54,7 @@ return(
           },
           {
             // Label for bars
-            label: "Ideal Energy (Wh/m^2)",
+            label: "Ideal Energy",
             data: this.props.ChartData_Real_Energy,
             backgroundColor: [
               'rgba(168, 50, 50, 1)'
@@ -95,7 +95,10 @@ options={{
     y: {
       min: 0,
       max: this.props.maximum ,
-      ticks: { color: '#fff', beginAtZero: true,    }
+      ticks: { color: '#fff', beginAtZero: true,  
+          callback: function(value, index, ticks) {
+        return 'W·h/m² ' + value;
+    }  }
       
     },
     y1: {

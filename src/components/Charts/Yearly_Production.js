@@ -29,7 +29,7 @@ return(
         datasets: [
           {
             // Label for bars
-            label: "Real Energy (Wh/m^2)",
+            label: "Produced Energy kWh",
             data: this.props.ChartData,
             backgroundColor: [
               'rgba(75, 245, 66, 0.4)'
@@ -56,7 +56,7 @@ options={{
     color: 'rgb(255, 255, 255)'
   },
   legend: {
-    display: true,
+    display: false,
     labels: {
         color: 'rgb(255, 255, 255)'
     }},
@@ -73,11 +73,16 @@ options={{
     y: {
       min: 0,
       max: this.props.maximum ,
-      ticks: { color: '#fff', beginAtZero: true,    }
+      ticks: { color: '#fff', beginAtZero: true,                       
+      callback: function(value, index, ticks) {
+        return 'kW·h ' + value;
+    } }
       
     },
     x: {
-      ticks: { color: '#fff', beginAtZero: true }
+      ticks: { color: '#fff', beginAtZero: true ,
+    }
+      
     }
   },
   elements: {
